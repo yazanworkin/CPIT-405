@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Great Auto Parts - Order Form</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #ffffff;
+}
+
+.container {
+  width: 65%;
+  max-width: 900px;
+  margin: 30px auto;
+}
+
+h1 {
+  text-align: center;
+  font-family: "Times New Roman", Times, serif;
+  font-size: 44px;
+  margin-bottom: 25px;
+}
+
+form label {
+  display: block;
+  margin-top: 14px;
+  font-weight: bold;
+  font-family: "Times New Roman", Times, serif;
+  font-size: 20px;
+}
+
+form input,
+form textarea {
+  width: 100%;
+  display: block;
+  margin-top: 6px;
+  padding: 12px;
+  border: 2px solid #d9d9d9;
+  border-radius: 6px;
+  font-size: 16px;
+}
+
+form textarea {
+  height: 220px;
+  resize: both;
+}
+
+button {
+  width: 100%;
+  margin-top: 18px;
+  padding: 14px;
+  background: #000;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <h1>Great Auto Parts - Order Form</h1>
+
+  <form>
+    <label>First Name:</label>
+    <input type="text" placeholder="Enter your first name">
+
+    <label>Last Name:</label>
+    <input type="text" placeholder="Enter your last name">
+
+    <label>Email:</label>
+    <input type="email" placeholder="Enter your email address">
+
+    <label>Phone number:</label>
+    <input type="tel" placeholder="Enter your phone number">
+
+    <label>Make:</label>
+    <input type="text" placeholder="Make">
+
+    <label>Model:</label>
+    <input type="text" placeholder="Model">
+
+    <label>Year:</label>
+    <input type="number" placeholder="Year">
+
+    <label>Date:</label>
+    <input type="date">
+
+    <label>Spare Part:</label>
+    <input type="text" placeholder="Enter the spare part you need">
+
+    <label>Quantity:</label>
+    <input type="number" placeholder="Enter the quantity of the spare part you need">
+
+    <label>Comment:</label>
+    <textarea placeholder="Enter your comment"></textarea>
+
+    <button type="submit">Submit</button>
+  </form>
+</div>
+
+</body>
+</html>
