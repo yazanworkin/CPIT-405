@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Unsplash API</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #f0f0f0;
+      font-family: Arial, sans-serif;
+      font-size: 0.95rem;
+    }
+
+    /* Top bar */
+    .toolbar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 18px;
+      background: #fff;
+      border-bottom: 1px solid #ddd;
+      flex-wrap: wrap;
+    }
+
+    .toolbar h1 {
+      font-size: 1.1rem;
+      font-weight: bold;
+      white-space: nowrap;
+      margin-right: 6px;
+    }
+
+    .toolbar input[type="text"] {
+      padding: 6px 10px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      font-size: 0.95rem;
+      width: 220px;
+    }
+
+    .toolbar button {
+      padding: 7px 14px;
+      background: #444;
+      color: #fff;
+      border: none;
+      border-radius: 3px;
+      font-size: 0.88rem;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .toolbar button:hover { background: #222; }
+
+    /* Status message */
+    #status {
+      padding: 10px 18px;
+      font-size: 0.85rem;
+      color: #666;
+      min-height: 34px;
+    }
+
+    /* Image grid */
+    #gallery {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      padding: 0 6px 6px;
+    }
+
+    #gallery img {
+      width: 100%;
+      height: 560px;
+      object-fit: cover;
+      display: block;
+      padding: 6px;
+    }
+
+    @media (max-width: 900px) {
+      #gallery { grid-template-columns: repeat(2, 1fr); }
+      #gallery img { height: 300px; }
+    }
+    @media (max-width: 500px) {
+      #gallery { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="toolbar">
+  <h1>Unsplash API</h1>
+  <input type="text" id="searchInput"  placeholder="Search images..."/>
+  <button onclick="searchXHR()">Search using XHR</button>
+  <button onclick="searchFetchPromises()">Search using fetch (promises)</button>
+  <button onclick="searchFetchAsync()">Search using fetch (async/await)</button>
+</div>
+
+<div id="status"></div>
+<div id="gallery"></div>
+
+<script>
+  var ACCESS_KEY = 'En3LoAQ-BB2lvbJvLza3LR8Vk-c5ztZKR67xjBJHs80';
+
+  var BASE_URL = 'https://api.unsplash.com/search/photos';
+
+  function getQuery() {
+    return document.getElementById('searchInput').value.trim() || 'nature';
+  }
+
+  function buildURL(query) {
+    return BASE_URL + '?query=' + encodeURIComponent(query) + '&per_page=8';
+  }
+
+  function setStatus(msg) {
+    document.getElementById('status').textContent = msg;
+  }
+
+  function renderImages(results) {
+    var gallery = document.getElementById('gallery');
+    gallery.innerHTML = '';
+    if (!results || results.length === 0) {
+      setStatus('No images found.');
+      return;
+    }
+    results.forEach(function(photo) {
+      var img = document.createElement('img');
+      img.src = photo.urls.regular;
+      img.alt = photo.alt_description || 'Unsplash photo';
+      gallery.appendChild(img);
+    });
+    setStatus('Showing ' + results.length + ' results for "' + getQuery() + '"');
+  }
+
+  // ── 1. XHR ──────────────────────────────────────────────────────────
+  function searchXHR() {
+    setStatus('Loading via XHR...');
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', buildURL(getQuery()), true);
+    xhr.setRequestHeader('Authorization', 'Client-ID ' + ACCESS_KEY);
+
+    xhr.onload = function() {
+      if (xhr.status === 200) {
+        var data = JSON.parse(xhr.responseText);
+        renderImages(data.results);
+      } else {
+        setStatus('Error ' + xhr.status + ': ' + xhr.statusText);
+      }
+    };
+
+    xhr.onerror = function() {
+      setStatus('Network error during XHR request.');
+    };
+
+    xhr.send();
+  }
+
+  // ── 2. fetch with Promises ──────────────────────────────────────────
+  function searchFetchPromises() {
+    setStatus('Loading via fetch (promises)...');
+
+    fetch(buildURL(getQuery()), {
+      headers: { 'Authorization': 'Client-ID ' + ACCESS_KEY }
+    })
+    .then(function(response) {
+      if (!response.ok) throw new Error('HTTP error ' + response.status);
+      return response.json();
+    })
+    .then(function(data) {
+      renderImages(data.results);
+    })
+    .catch(function(err) {
+      setStatus('Error: ' + err.message);
+    });
+  }
+
+  // ── 3. fetch with async/await ───────────────────────────────────────
+  async function searchFetchAsync() {
+    setStatus('Loading via fetch (async/await)...');
+    try {
+      var response = await fetch(buildURL(getQuery()), {
+        headers: { 'Authorization': 'Client-ID ' + ACCESS_KEY }
+      });
+      if (!response.ok) throw new Error('HTTP error ' + response.status);
+      var data = await response.json();
+      renderImages(data.results);
+    } catch (err) {
+      setStatus('Error: ' + err.message);
+    }
+  }
+</script>
+</body>
+</html>
