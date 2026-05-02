@@ -10,9 +10,8 @@ function App() {
       <div className="App">
         <nav className="navbar">
           <div className="nav-container">
-            <Link to="/" className="nav-logo">
-              🍳 Recipe Finder
-            </Link>
+            <Link to="/" className="nav-logo">Home</Link>
+            <Link to="/" className="nav-logo" style={{ marginLeft: '2rem' }}>About</Link>
           </div>
         </nav>
         
@@ -22,7 +21,7 @@ function App() {
         </Routes>
         
         <footer className="footer">
-          <p>Powered by Spoonacular API | Lab 9 - React Recipe App</p>
+          <p>Powered by Spoonacular API</p>
         </footer>
       </div>
     </Router>

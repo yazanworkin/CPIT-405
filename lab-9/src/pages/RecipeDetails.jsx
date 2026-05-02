@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import './RecipeDetails.css';
 
-const API_KEY = 'd85d798deb7d1b643fd857d8d227b9ef9dafc137'; 
+const API_KEY = '158070bf87364a75b82c29bb06fb20bb'; 
 
 function RecipeDetails() {
   const { id } = useParams();

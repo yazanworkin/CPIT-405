@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import RecipeCard from '../components/RecipeCard';
 import './Home.css';
 
-const API_KEY = 'YOUR_API_KEY_HERE'; // Replace with your Spoonacular API key
+const API_KEY = '158070bf87364a75b82c29bb06fb20bb';
 
 function Home() {
   const [searchQuery, setSearchQuery] = useState('');
